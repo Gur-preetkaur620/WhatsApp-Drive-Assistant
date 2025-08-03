@@ -27,6 +27,6 @@ This repository is part of the internship assignment from *Think Act Rise Founda
 ## 🧠 Built By
 *Gurpreet Kaur*
 
-Internship Task Submitted via [GitHub](https://github.com/Gur-preetkaur620/your-repo-name)
+Internship Task Submitted via [GitHub](https://github.com/Gur-preetkaur620/WhatsApp-Drive-Assistant)
 
 
