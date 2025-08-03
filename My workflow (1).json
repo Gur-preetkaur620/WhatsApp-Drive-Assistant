@@ -1,0 +1,115 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "whatsapp-list",
+        "responseMode": "=onReceived",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "a6e4e43d-05c1-411a-91d1-3eae7d806d58",
+      "name": "Webhook",
+      "webhookId": "de020d33-584e-493a-9862-99757e661923"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "6a7be9e4-b43e-48cd-9b6e-fe8077d8c877",
+              "leftValue": "={{$json[\"body\"][\"Body\"]}}",
+              "rightValue": "=upload",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "92b1f53a-09ed-4556-9086-d35eda6057f3",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1922bd8c-720d-4de8-a29a-ff8b8ccc0604",
+              "name": "reply",
+              "value": "Upload command received! Google Drive integration coming soon.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        368,
+        16
+      ],
+      "id": "c4b2c064-4bea-4183-a5b2-3fb45288cb37",
+      "name": "Edit Fields"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "f85e1556-61c6-46a2-bc47-3ff22ef12158",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "d8272f70499a2d9629af168da1cec4fc5e3a1b33a85038fb90a19d6db40f9f36"
+  },
+  "id": "Pbm21qbLlvn8c2rH",
+  "tags": []
+}
