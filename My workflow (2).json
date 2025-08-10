@@ -1,0 +1,1682 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "whatsapp-list",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -304,
+        -320
+      ],
+      "id": "a6e4e43d-05c1-411a-91d1-3eae7d806d58",
+      "name": "Webhook",
+      "webhookId": "de020d33-584e-493a-9862-99757e661923"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1922bd8c-720d-4de8-a29a-ff8b8ccc0604",
+              "name": "reply",
+              "value": "\"File has been uploaded!\"",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        288,
+        -336
+      ],
+      "id": "c4b2c064-4bea-4183-a5b2-3fb45288cb37",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "toText",
+        "sourceProperty": "reply",
+        "binaryPropertyName": "reply",
+        "options": {
+          "fileName": "=my_file.txt"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        544,
+        -336
+      ],
+      "id": "1fda9f15-1a94-4bd5-ae72-0f203efaa4b6",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {
+        "inputDataFieldName": "reply",
+        "name": "upload_file.txt",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "root",
+          "cachedResultName": "/ (Root folder)"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        784,
+        -336
+      ],
+      "id": "750614b4-e005-4e32-a800-092e688540e9",
+      "name": "Upload file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "jgnmPVpk7EDVFPvU",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "queryString": "*",
+        "returnAll": true,
+        "filter": {},
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        544,
+        -128
+      ],
+      "id": "afb51b35-7ece-4296-8308-ff955d921d95",
+      "name": "Search files and folders",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "jgnmPVpk7EDVFPvU",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "139cf093-6d10-4851-8819-dbb72625bf1d",
+              "name": "folder",
+              "value": "/",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        272,
+        -128
+      ],
+      "id": "cbb25166-3ce9-419e-acd1-c25c2b8505ea",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "04ebea68-e2b6-4015-90b9-522ca4ccfc5a",
+              "name": "fileId",
+              "value": "={{ $json[\"body\"][\"Body\"].split(\" \")[1] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        272,
+        96
+      ],
+      "id": "4cfbc1c9-5e00-4af0-9128-ee4c8e4b0f63",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {
+        "operation": "deleteFile",
+        "fileId": {
+          "__rl": true,
+          "value": "1g21Bq1c7VnY0JeNvm6f8PCpgRgfVuhD7",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        544,
+        96
+      ],
+      "id": "574399ae-4cd4-4ac5-bc6a-33417acc9bb3",
+      "name": "Delete a file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "jgnmPVpk7EDVFPvU",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a74b3c02-a451-41df-8f8b-effc793899da",
+              "name": "fileId",
+              "value": "={{ $json[\"body\"][\"Body\"].split(\" \")[1] }}",
+              "type": "string"
+            },
+            {
+              "id": "ccf502b2-d46f-41f5-a107-76e271fe4d4e",
+              "name": "folderId",
+              "value": "={{ $json[\"body\"][\"Body\"].split(\" \")[3] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        288,
+        320
+      ],
+      "id": "f9ce466b-d802-4c2f-a01d-927928a82728",
+      "name": "Edit Fields4"
+    },
+    {
+      "parameters": {
+        "operation": "move",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json[\"fileId\"] }}",
+          "mode": "id"
+        },
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "={{ $json[\"folderId\"] }}",
+          "mode": "id"
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        560,
+        320
+      ],
+      "id": "114766ac-d298-4c3f-a2be-d07c34f1bc1c",
+      "name": "Move file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "jgnmPVpk7EDVFPvU",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "1QLgUYe1lOYi-krb64tCg58SnKVfRaqeP",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        576,
+        768
+      ],
+      "id": "63470aff-a180-4c64-ae18-b7cc9f6637ae",
+      "name": "Download file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "jgnmPVpk7EDVFPvU",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a3258b5a-e541-4a3e-bd01-52f7c3696f1a",
+              "name": "text",
+              "value": "=Summarize this text briefly:{{ $json[\"body\"][\"Body\"] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        288,
+        768
+      ],
+      "id": "b2213070-163a-466b-a382-fbbb0bc19076",
+      "name": "Edit Fields5"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "58ae40aa-ea28-4679-93d8-2c69b526b57d",
+              "name": "summary_input",
+              "value": "={{ $json[\"text\"]}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        816,
+        768
+      ],
+      "id": "9671c8b9-cf18-488d-82f1-13040252e825",
+      "name": "Edit Fields6"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.openai.com/v1/chat/completions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer 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"
+            },
+            {
+              "name": "Content-Type",
+              "value": "=application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "model",
+              "value": "gpt-3.5-turbo"
+            },
+            {
+              "name": "messages",
+              "value": "=[\n {\n  \"role\": \"user\",\n  \"content\": \"Summarize this text briefly: {{$json.summary_input}}\"\n }\n]"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1056,
+        768
+      ],
+      "id": "655e12ee-9fbc-497c-afd3-ce938d3de6ab",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2610e7df-98a4-4d4a-b694-702e97c4ebcc",
+              "name": "Timestamp",
+              "value": "={{ $now }}",
+              "type": "string"
+            },
+            {
+              "id": "aaa82992-e305-4494-be66-d0bfaf190ac3",
+              "name": "WhatsAppNumber",
+              "value": "={{$node[\"Webhook\"].json.body.From}}",
+              "type": "string"
+            },
+            {
+              "id": "f7ed1dea-8ab7-4e1c-b5ae-5b453e3b01a7",
+              "name": "SenderName",
+              "value": "={{$node[\"Webhook\"].json.body.ProfileName}}",
+              "type": "string"
+            },
+            {
+              "id": "455f7fed-ec28-4092-ae64-a0069814a3a0",
+              "name": "FileName",
+              "value": "={{ $json[\"name\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "46251776-1a78-446e-884c-89fcf8da2538",
+              "name": "FileURL",
+              "value": "={{ $json[\"webViewLink\"] }}",
+              "type": "string"
+            },
+            {
+              "id": "35bff128-709e-47f3-935e-6f54752c4656",
+              "name": "Status",
+              "value": "=Success",
+              "type": "string"
+            },
+            {
+              "id": "9bde688a-0d44-4bbf-b07e-378ffd445405",
+              "name": "ErrorMessage",
+              "value": "\"\"",
+              "type": "string"
+            },
+            {
+              "id": "75ab769d-a0a7-4aa3-9dc0-c2fbb574b8fa",
+              "name": "executionId",
+              "value": "={{ $execution.id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        992,
+        -336
+      ],
+      "id": "fe90c179-519c-4ac4-8290-77631824e332",
+      "name": "Log"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1505z7dYio3da38dhIdmwuUccuyOtbRfvCNpjBbVk334",
+          "mode": "list",
+          "cachedResultName": "n8n-logs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1505z7dYio3da38dhIdmwuUccuyOtbRfvCNpjBbVk334/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Logs",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Notes": "Notes",
+            "Timestamp": "={{ $json.Timestamp }}",
+            "WhatsAppNumber": "={{ $json.WhatsAppNumber }}",
+            "SenderName": "={{ $json[\"SenderName\"] }}",
+            "FileName": "={{ $json.FileName }}",
+            "FileURL": "={{ $json.FileURL }}",
+            "Status(Success/Failed)": "={{ $json.Status }}",
+            "ErrorMessage": "={{ $json.ErrorMessage }}",
+            "ExecutionID": "={{ $json.executionId }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Timestamp",
+              "displayName": "Timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "WhatsAppNumber",
+              "displayName": "WhatsAppNumber",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "SenderName",
+              "displayName": "SenderName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "FileName",
+              "displayName": "FileName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "FileURL",
+              "displayName": "FileURL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Status(Success/Failed)",
+              "displayName": "Status(Success/Failed)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ErrorMessage",
+              "displayName": "ErrorMessage",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ExecutionID",
+              "displayName": "ExecutionID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Notes",
+              "displayName": "Notes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        1200,
+        -336
+      ],
+      "id": "6eef6d02-2ae7-4961-999a-b5533b56cff8",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "wwBnL6wQFIdKX5jd",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "6a7be9e4-b43e-48cd-9b6e-fe8077d8c877",
+              "leftValue": "={{$json[\"body\"][\"Body\"]}}",
+              "rightValue": "=upload",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -16,
+        -320
+      ],
+      "id": "92b1f53a-09ed-4556-9086-d35eda6057f3",
+      "name": "If(upload)"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "ac85d5df-648b-4683-af88-9294d28ef8e4",
+              "leftValue": "={{ $json[\"body\"][\"Body\"] }}",
+              "rightValue": "list",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -16,
+        -112
+      ],
+      "id": "8daea3d9-0a22-4620-aa3b-7dce7dcad1aa",
+      "name": "If(list)"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "1d48522c-cb78-4f9c-bfc9-04509d57dc31",
+              "leftValue": "={{ $json[\"body\"][\"Body\"] }}",
+              "rightValue": "delete",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -16,
+        112
+      ],
+      "id": "e170b590-0eac-457c-92ee-c587dbdbb78c",
+      "name": "If(delete)"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c7204be4-a853-4e56-80f7-3e48cf28ece7",
+              "leftValue": "={{ $json[\"body\"][\"Body\"] }}",
+              "rightValue": "move",
+              "operator": {
+                "type": "string",
+                "operation": "startsWith"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -16,
+        336
+      ],
+      "id": "bca2b414-79eb-41db-97f0-de4cd02ff273",
+      "name": "If(move files to folder)"
+    },
+    {
+      "parameters": {
+        "resource": "fileFolder",
+        "returnAll": true,
+        "filter": {
+          "folderId": {
+            "__rl": true,
+            "value": "1bHUCUnigqcOeB4lchiFeakq6j9BWM1I1",
+            "mode": "id"
+          }
+        },
+        "options": {
+          "fields": [
+            "id",
+            "name",
+            "mimeType"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        288,
+        544
+      ],
+      "id": "b98ebc7b-146d-4132-9445-8929736d4e9e",
+      "name": "listfiles",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "jgnmPVpk7EDVFPvU",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "80507441-768e-469b-bd45-da16db6e7a7d",
+              "leftValue": "={{ $json[\"mimeType\"] }}",
+              "rightValue": "application/vnd.google-apps.document",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "2509075d-7259-456b-b0ae-0dc789b4c517",
+              "leftValue": "={{ $json[\"mimeType\"] }}",
+              "rightValue": "text/plain",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        560,
+        544
+      ],
+      "id": "73e9b34d-d8a2-415a-a82e-75e8be8d8bbc",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{$node[\"listfiles\"].json[\"id\"]}}",
+          "mode": "id"
+        },
+        "options": {
+          "binaryPropertyName": "data"
+        }
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        800,
+        528
+      ],
+      "id": "be387548-de4b-45af-81e9-828d6fa7eea1",
+      "name": "Download file1",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "jgnmPVpk7EDVFPvU",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "e7a1c8fe-8ebe-4cdf-a80e-098d26fb339e",
+              "leftValue": "={{ $json[\"body\"][\"Body\"] }}",
+              "rightValue": "summary",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -32,
+        560
+      ],
+      "id": "f478021f-a1fb-49ee-beb8-e3050a707524",
+      "name": "If(summary)"
+    },
+    {
+      "parameters": {
+        "operation": "fromJson",
+        "destinationKey": "text",
+        "options": {
+          "encoding": "utf8",
+          "keepSource": "binary"
+        }
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        1312,
+        528
+      ],
+      "id": "86051fcc-88cd-4a00-bca4-a8f0117f1c31",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "operation": "toJson",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        1056,
+        528
+      ],
+      "id": "3690dd5c-93da-4e1d-904a-6f1fd4494497",
+      "name": "Convert to File1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "222f492b-3d23-41b8-b126-94c4cb9f2604",
+              "leftValue": "={{ $json.body.Body }}",
+              "rightValue": "summarize",
+              "operator": {
+                "type": "string",
+                "operation": "startsWith"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -48,
+        784
+      ],
+      "id": "4c100af5-30d4-40f3-a72a-e036db21bb96",
+      "name": "If(summarize),for aisummarization"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "573d1442-2917-4eeb-a231-ed19b95f4e20",
+              "name": "data",
+              "value": "\"This is just a text from file \"",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1568,
+        528
+      ],
+      "id": "33539ba9-ae48-4d15-a1ff-f989b578e1f0",
+      "name": "Edit Fields7"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "GPT-4O"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=\"Summarize the following in 2-3 seconds concise bullet points. focus on key points or findings. Document: {{$node['Edit Fields7'].json.data}}\""
+            }
+          ]
+        },
+        "options": {
+          "maxTokens": 100
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        2080,
+        528
+      ],
+      "id": "568d8b02-5aec-4f33-86b2-bcf060058537",
+      "name": "Message a model",
+      "credentials": {
+        "openAiApi": {
+          "id": "t3tfKwuKhtYkH1kk",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 60
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1824,
+        528
+      ],
+      "id": "b3e237f8-a125-4d4a-8f9c-1aabaf8ebe13",
+      "name": "Wait",
+      "webhookId": "3db889c8-18b1-4466-967a-7a9ccdfe3a4e"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1505z7dYio3da38dhIdmwuUccuyOtbRfvCNpjBbVk334",
+          "mode": "list",
+          "cachedResultName": "n8n-logs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1505z7dYio3da38dhIdmwuUccuyOtbRfvCNpjBbVk334/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1429455660,
+          "mode": "list",
+          "cachedResultName": "for summary",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1505z7dYio3da38dhIdmwuUccuyOtbRfvCNpjBbVk334/edit#gid=1429455660"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "timestamp": "={{ new Date().toISOString() }}",
+            "sender": "={{ $json[\"SenderName\"] }}",
+            "command": "={{ \"summary /default-folder\" }}",
+            "status(success/failed)": "success"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "timestamp",
+              "displayName": "timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "sender",
+              "displayName": "sender",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "command",
+              "displayName": "command",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "status(success/failed)",
+              "displayName": "status(success/failed)",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        2512,
+        528
+      ],
+      "id": "5c292164-cc04-4c73-af72-906e264247df",
+      "name": "Append row in sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "wwBnL6wQFIdKX5jd",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1505z7dYio3da38dhIdmwuUccuyOtbRfvCNpjBbVk334",
+          "mode": "list",
+          "cachedResultName": "n8n-logs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1505z7dYio3da38dhIdmwuUccuyOtbRfvCNpjBbVk334/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2126675460,
+          "mode": "list",
+          "cachedResultName": "for list",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1505z7dYio3da38dhIdmwuUccuyOtbRfvCNpjBbVk334/edit#gid=2126675460"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Timestamp": "={{ new Date().toISOString() }}",
+            "Sender": "={{ $node[\"Webhook\"].json.from }}",
+            "Command": "={{ \"Edit Fields2\" }}",
+            "Status": "success"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Timestamp",
+              "displayName": "Timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Sender",
+              "displayName": "Sender",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Command",
+              "displayName": "Command",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        784,
+        -128
+      ],
+      "id": "6cf20e12-1df0-411f-8b92-06e5e0a77a40",
+      "name": "Append row in sheet2",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "wwBnL6wQFIdKX5jd",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1505z7dYio3da38dhIdmwuUccuyOtbRfvCNpjBbVk334",
+          "mode": "list",
+          "cachedResultName": "n8n-logs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1505z7dYio3da38dhIdmwuUccuyOtbRfvCNpjBbVk334/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 452222681,
+          "mode": "list",
+          "cachedResultName": "for delete",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1505z7dYio3da38dhIdmwuUccuyOtbRfvCNpjBbVk334/edit#gid=452222681"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Sender": "={{ $node[\"Webhook\"].json.from }}",
+            "Command": "={{ \"delete\" }}",
+            "Timestamp": "={{ new Date().toISOString() }}",
+            "Status": "success"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Timestamp",
+              "displayName": "Timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Sender",
+              "displayName": "Sender",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Command",
+              "displayName": "Command",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        784,
+        96
+      ],
+      "id": "80175927-4f46-41fa-9825-1e8b9a53eee0",
+      "name": "Append row in sheet3",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "wwBnL6wQFIdKX5jd",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1505z7dYio3da38dhIdmwuUccuyOtbRfvCNpjBbVk334",
+          "mode": "list",
+          "cachedResultName": "n8n-logs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1505z7dYio3da38dhIdmwuUccuyOtbRfvCNpjBbVk334/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 398810102,
+          "mode": "list",
+          "cachedResultName": "for move",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1505z7dYio3da38dhIdmwuUccuyOtbRfvCNpjBbVk334/edit#gid=398810102"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Sender": "={{ $node[\"Webhook\"].json.from }}",
+            "Timestamp": "={{ new Date().toISOString() }}",
+            "Command": "={{\"move\"}}",
+            "Status": "success"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Timestamp",
+              "displayName": "Timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Sender",
+              "displayName": "Sender",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Command",
+              "displayName": "Command",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        784,
+        320
+      ],
+      "id": "69bcabc9-143d-4ecc-8bf7-81eef5b3664a",
+      "name": "Append row in sheet4",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "wwBnL6wQFIdKX5jd",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "If(upload)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "Upload file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search files and folders": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload file": {
+      "main": [
+        [
+          {
+            "node": "Log",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Search files and folders",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "Delete a file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields4": {
+      "main": [
+        [
+          {
+            "node": "Move file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields5": {
+      "main": [
+        [
+          {
+            "node": "Download file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields6": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        []
+      ]
+    },
+    "Log": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If(upload)": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If(list)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If(list)": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If(delete)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If(delete)": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If(move files to folder)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If(move files to folder)": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields4",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If(summary)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "listfiles": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Download file1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "If(summary)": {
+      "main": [
+        [
+          {
+            "node": "listfiles",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If(summarize),for aisummarization",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file1": {
+      "main": [
+        [
+          {
+            "node": "Convert to File1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File1": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If(summarize),for aisummarization": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields5",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields7": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delete a file": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Move file": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "saveExecutionProgress": true,
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "9798e52c-571c-4ae0-8d1b-24caff8d08f4",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "d8272f70499a2d9629af168da1cec4fc5e3a1b33a85038fb90a19d6db40f9f36"
+  },
+  "id": "Pbm21qbLlvn8c2rH",
+  "tags": []
+}
